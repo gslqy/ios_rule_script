@@ -609,7 +609,6 @@ async function removeRecommend() {
 		let customBlockedUsers = $.data.read(blockedUsersKey, "", user_info.id);
 		customBlockedUsers = settings_blocked_users && !!customBlockedUsers ? customBlockedUsers : {};
 		const dataFilter = element => {
-			return false;
 			const elementStr = JSON.stringify(element);
 			const isAd = element["card_type"] === "slot_event_card" || element["card_type"] === "slot_video_event_card" || element.hasOwnProperty("ad") || element["brief"] && element["brief"].indexOf("slot_card") >= 0 || element["extra"] && element["extra"]["type"] === "Training";
 			const isStream = isAd !== true && elementStr.search(/"(type|style)+"\s?:\s?"(drama|zvideo|Video|BIG_IMAGE)+"/i) >= 0;
@@ -617,7 +616,8 @@ async function removeRecommend() {
 			const isPin = isStream !== true && elementStr.search(/"(type|style)+"\s?:\s?"pin"/i) >= 0;
 			const removePin = isPin && settings_remove_pin;
 			const isArticle = elementStr.search(/"(type|style)+"\s?:\s?"article"/i) >= 0;
-            const isMore = element["extra"]["type"] === "pin";
+            		const isMore = element["extra"]["type"] === "pin";
+			if (isMore) return false;
 			const removeArticle = isArticle && settings_remove_article || isMore;
 			let matchKeyword = false;
 			if (isStream !== true && settings_blocked_keywords) {
