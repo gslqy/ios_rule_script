@@ -610,7 +610,7 @@ async function removeRecommend() {
 		customBlockedUsers = settings_blocked_users && !!customBlockedUsers ? customBlockedUsers : {};
 		const dataFilter = element => {
 			const elementStr = JSON.stringify(element);
-			const isAd = element["card_type"] === "slot_event_card" || element["card_type"] === "slot_video_event_card" || element.hasOwnProperty("ad") || element["brief"] && element["brief"].indexOf("slot_card") >= 0 || element["extra"] && element["extra"]["type"] === "Training";
+			const isAd = element["type"] === "feed_advert" || element["card_type"] === "slot_event_card" || element["card_type"] === "slot_video_event_card" || element.hasOwnProperty("ad") || element["brief"] && element["brief"].indexOf("slot_card") >= 0 || element["extra"] && element["extra"]["type"] === "Training";
 			const isStream = isAd !== true && elementStr.search(/"(type|style)+"\s?:\s?"(drama|zvideo|Video|BIG_IMAGE)+"/i) >= 0;
 			const removeStream = isStream && settings_recommend_stream;
 			const isPin = isStream !== true && elementStr.search(/"(type|style)+"\s?:\s?"pin"/i) >= 0;
