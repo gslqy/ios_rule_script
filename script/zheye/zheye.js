@@ -7,7 +7,21 @@ const userCreditScoreKey = "zhihu_credit_score";
 const zheyeServerKey = "zheye_server_url";
 const defaultAnswerBlockedUsers = ["会员推荐", "盐选推荐"];
 const keywordMaxCount = 1e3;
+const regexArray = [
+  	/脱单/,
+	/另一半/
+];
 const $ = MagicJS(scriptName, "INFO");
+
+function matchAnyRegex(inputString, regexArray) {
+  for (let i = 0; i < regexArray.length; i++) {
+    const regex = regexArray[i];
+    if (regex.test(inputString)) {
+      return true;
+    }
+  }
+  return false;
+}
 
 function getUserInfo() {
 	let defaultUserInfo = {
@@ -618,6 +632,8 @@ async function removeRecommend() {
 			const isArticle = elementStr.search(/"(type|style)+"\s?:\s?"article"/i) >= 0;
             		const isMore = element["extra"]["type"] === "pin";
 			if (isMore) return false;
+			const isSB = matchAnyRegex(elementStr, regexArray);
+			if (isSB) return false;
 			const removeArticle = isArticle && settings_remove_article || isMore;
 			let matchKeyword = false;
 			if (isStream !== true && settings_blocked_keywords) {
